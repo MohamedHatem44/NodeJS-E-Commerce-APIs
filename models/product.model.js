@@ -38,15 +38,15 @@ const productSchema = new mongoose.Schema(
     },
     colors: [String],
 
-    imageCover: {
+    image: {
       type: String,
       required: [true, "Product Image cover is required"],
     },
-    images: [String],
+    // images: [String],
     category: {
       type: mongoose.Schema.ObjectId,
       ref: "Category",
-      required: [true, "Product must be belong to category"],
+      // required: [true, "Product must be belong to category"],
     },
     subcategories: [
       {
@@ -72,18 +72,33 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
     //To enable virtual populate
     toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   }
 );
-
-
-//Populate reviews
-productSchema.virtual('reviews', {
-  ref: 'Review',
-  foreignField: 'product',
-  localField: '_id'
+/*-----------------------------------------------------------------*/
+const setImageURL = (doc) => {
+  if (doc.image) {
+    const imageUrl = `${process.env.BASE_URL}/products/${doc.image}`;
+    doc.image = imageUrl;
+  }
+};
+// findOne, findAll and update
+productSchema.post("init", (doc) => {
+  setImageURL(doc);
 });
 
+// create
+productSchema.post("save", (doc) => {
+  setImageURL(doc);
+});
+/*-----------------------------------------------------------------*/
+
+//Populate reviews
+productSchema.virtual("reviews", {
+  ref: "Review",
+  foreignField: "product",
+  localField: "_id",
+});
 
 /*-----------------------------------------------------------------*/
 // Mongoose query middleware

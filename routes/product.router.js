@@ -13,24 +13,29 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  uploadProductImage,
+  resizeImage,
 } = require("../controllers/product.controller");
 
-const reviewsRoute = require('./review.router');
+const reviewsRoute = require("./review.router");
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/
 // Get All Brands
 // Create new Brand
+// router
+//   .route("/")
+//   .get(getProducts)
+//   .post(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     createProductValidator,
+//     createProduct
+//   );
 router
   .route("/")
   .get(getProducts)
-  .post(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    createProductValidator,
-    createProduct
-  );
-
+  .post(uploadProductImage, resizeImage, createProductValidator, createProduct);
 /*-----------------------------------------------------------------*/
 //get product by Id
 // Update product
@@ -38,7 +43,7 @@ router
 router
   .route("/:id")
   .get(getProductValidator, getProduct)
-  .put(
+  .patch(
     AuthService.protect,
     AuthService.allowedTo("admin", "manager"),
     updateProductValidator,

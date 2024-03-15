@@ -14,6 +14,8 @@ const {
   createBrand,
   updateBrand,
   deleteBrand,
+  uploadBrandImage,
+  resizeImage,
 } = require("../controllers/brand.controller");
 
 const router = express.Router();
@@ -21,15 +23,19 @@ const router = express.Router();
 /*-----------------------------------------------------------------*/
 // Get All Brands
 // Create new Brand
+// router
+//   .route("/")
+//   .get(getBrands)
+//   .post(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     createBrandValidator,
+//     createBrand
+// );
 router
   .route("/")
   .get(getBrands)
-  .post(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    createBrandValidator,
-    createBrand
-  );
+  .post(uploadBrandImage, resizeImage, createBrandValidator, createBrand);
 
 /*-----------------------------------------------------------------*/
 //get barnd bu Id
@@ -38,7 +44,7 @@ router
 router
   .route("/:id")
   .get(getBrandValidator, getBrand)
-  .put(
+  .patch(
     AuthService.protect,
     AuthService.allowedTo("admin", "manager"),
     updateBrandValidator,

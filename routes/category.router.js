@@ -1,5 +1,6 @@
 const express = require("express");
-const AuthService =require('../controllers/Auth.controller')
+const AuthService = require("../controllers/Auth.controller");
+
 const {
   getCategoryValidator,
   createCategoryValidator,
@@ -13,6 +14,8 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
+  uploadCategoryImage,
+  resizeImage,
 } = require("../controllers/category.controller");
 
 const subcategoriesRoute = require("./subCategory.router");
@@ -31,12 +34,22 @@ router.get("/", getCategories);
 router.get("/:id", getCategoryValidator, getCategory);
 /*-----------------------------------------------------------------*/
 // Create new Category
-router.route("/")
-.post(
-   AuthService.protect,
-   AuthService.allowedTo("admin","manager"),
-   createCategoryValidator, 
-   createCategory);
+// router
+//   .route("/")
+//   .post(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     createCategoryValidator,
+//     createCategory
+//   );
+router
+  .route("/")
+  .post(
+    uploadCategoryImage,
+    resizeImage,
+    createCategoryValidator,
+    createCategory
+  );
 /*-----------------------------------------------------------------*/
 // Update Category
 router.patch("/:id", updateCategoryValidator, updateCategory);

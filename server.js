@@ -1,3 +1,5 @@
+const path = require("path");
+
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
@@ -13,7 +15,7 @@ const brandRoute = require("./routes/brand.router");
 const productRoute = require("./routes/product.router");
 const UserRoute = require("./routes/User.router");
 const AuthRoute = require("./routes/Auth.router");
-const orderRoute= require("./routes/order.router")
+const orderRoute = require("./routes/order.router");
 const reviewRoute = require("./routes/review.router");
 const AdminRoute = require("./routes/admin.route");
 /*-----------------------------------------------------------------*/
@@ -22,9 +24,11 @@ dbConnection();
 /*-----------------------------------------------------------------*/
 // express app
 const app = express();
+
 /*-----------------------------------------------------------------*/
 // Middlewares to parse json string into a javascript object
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "uploads")));
 /*-----------------------------------------------------------------*/
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -54,13 +58,13 @@ app.use("/api/v1/users", UserRoute);
 //Auth route
 app.use("/api/v1/auth", AuthRoute);
 //order Route
-app.use("/api/v1/orders",orderRoute);
+app.use("/api/v1/orders", orderRoute);
 /*-----------------------------------------------------------------*/
 //shoppingCart Route
-app.use("/api/v1/orders",orderRoute);
+app.use("/api/v1/orders", orderRoute);
 /*-----------------------------------------------------------------*/
 //Admin Route
-app.use("/admin",AdminRoute)
+app.use("/admin", AdminRoute);
 /*-----------------------------------------------------------------*/
 // app.use("/api/v1/stripe", stripe);
 /*-----------------------------------------------------------------*/

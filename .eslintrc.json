@@ -5,7 +5,7 @@
     "es2021": true
   },
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "import"],
   "parserOptions": {
     "ecmaVersion": "latest"
   },
@@ -25,6 +25,13 @@
     "no-undef": "warn",
     "node/no-unsupported-features/es-syntax": "off",
     "prefer-destructuring": ["warn", { "object": true, "array": false }],
-    "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }],
+    "import/no-unresolved": "flase",
+    "import/named": "error",
+    "import/default": "error",
+    "import/namespace": "error",
+    "import/export": "error",
+    "import/no-named-as-default": "error",
+    "import/no-named-as-default-member": "error"
   }
 }
