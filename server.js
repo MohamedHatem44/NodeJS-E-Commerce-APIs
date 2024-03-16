@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const cors = require("cors");
 
 dotenv.config({ path: "config.env" });
 const ApiError = require("./utils/apiError");
@@ -24,7 +25,7 @@ dbConnection();
 /*-----------------------------------------------------------------*/
 // express app
 const app = express();
-
+app.use(cors());
 /*-----------------------------------------------------------------*/
 // Middlewares to parse json string into a javascript object
 app.use(express.json());
