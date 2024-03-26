@@ -7,15 +7,15 @@ const { uploadSingleImage } = require("../middlewares/uploadImageMiddleware");
 const Product = require("../models/product.model");
 /*-----------------------------------------------------------------*/
 // Upload single image
-const uploadProductImage = uploadSingleImage("imageCover");
+const uploadProductImage = uploadSingleImage("image");
 /*-----------------------------------------------------------------*/
 // Image processing
 const resizeImage = asyncHandler(async (req, res, next) => {
-  const filename = `category-${uuidv4()}-${Date.now()}.jpeg`;
+  const filename = `product-${uuidv4()}-${Date.now()}.jpeg`;
 
   if (req.file) {
     await sharp(req.file.buffer)
-      .resize(500, 500)
+      .resize(500, 600)
       .toFormat("jpeg")
       .jpeg({ quality: 95 })
       .toFile(`uploads/products/${filename}`);

@@ -1,6 +1,8 @@
 const slugify = require("slugify");
 const { check, body } = require("express-validator");
 const validatorMiddleware = require("../middlewares/validatorMiddleware");
+const Category = require("../models/category.model");
+const ApiError = require("../utils/apiError");
 /*-----------------------------------------------------------------*/
 const getCategoryValidator = [
   check("id").isMongoId().withMessage("Invalid category id format"),
@@ -15,10 +17,16 @@ const createCategoryValidator = [
     .withMessage("Too short category name")
     .isLength({ max: 32 })
     .withMessage("Too long category name")
-    .custom((val, { req }) => {
-      req.body.slug = slugify(val);
+    .custom(async (value, { req }) => {
+      // Check if a category with the same name already exists
+      const existingCategory = await Category.findOne({ name: value });
+      if (existingCategory) {
+        throw new ApiError("Category name must be unique", 400);
+      }
+      req.body.slug = slugify(value);
       return true;
     }),
+  check("image").notEmpty().withMessage("Category image is required(v)"),
   validatorMiddleware,
 ];
 /*-----------------------------------------------------------------*/

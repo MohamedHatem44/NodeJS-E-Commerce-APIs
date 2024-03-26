@@ -52,7 +52,7 @@ router
 router
   .route("/:id")
   .get(getProductValidator, getProduct)
-  .patch(updateProductValidator, updateProduct)
+  .patch(uploadProductImage, resizeImage, updateProductValidator, updateProduct)
   .delete(
     AuthService.protect,
     AuthService.allowedTo("admin"),

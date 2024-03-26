@@ -38,7 +38,7 @@ const createProductValidator = [
   check("priceAfterDiscount")
     .optional()
     .isNumeric()
-    .withMessage("Product priceAfterDiscount must be a number")
+    .withMessage("Product price After Discount must be a number")
     .toFloat()
     .custom((value, { req }) => {
       if (req.body.price <= value) {
@@ -50,8 +50,8 @@ const createProductValidator = [
   check("colors")
     .optional()
     .isArray()
-    .withMessage("availableColors should be array of string"),
-  check("imageCover").notEmpty().withMessage("Product image Cover is required"),
+    .withMessage("available Colors should be array of string"),
+  check("image").notEmpty().withMessage("Product image Cover required(V)"),
   check("images")
     .optional()
     .isArray()
