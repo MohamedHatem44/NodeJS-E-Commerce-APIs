@@ -51,11 +51,11 @@ const createProductValidator = [
     .optional()
     .isArray()
     .withMessage("availableColors should be array of string"),
-  check("image").notEmpty().withMessage("Product imageCover is required"),
-  // check("images")
-  //   .optional()
-  //   .isArray()
-  //   .withMessage("images should be array of string"),
+  check("imageCover").notEmpty().withMessage("Product image Cover is required"),
+  check("images")
+    .optional()
+    .isArray()
+    .withMessage("images should be array of string"),
   check("category")
     .optional()
     // .withMessage("Product must be belong to a category")
@@ -102,7 +102,7 @@ const createProductValidator = [
       )
     ),
 
-  check("brand").optional().isMongoId().withMessage("Invalid ID formate"),
+  check("brand").optional().isMongoId().withMessage("Invalid ID format"),
   check("ratingsAverage")
     .optional()
     .isNumeric()

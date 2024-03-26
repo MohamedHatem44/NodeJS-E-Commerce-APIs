@@ -40,15 +40,19 @@ router
 //get product by Id
 // Update product
 // Delete product by Id
+// router
+//   .route("/:id")
+//   .get(getProductValidator, getProduct)
+//   .patch(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     updateProductValidator,
+//     updateProduct
+// )
 router
   .route("/:id")
   .get(getProductValidator, getProduct)
-  .patch(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    updateProductValidator,
-    updateProduct
-  )
+  .patch(updateProductValidator, updateProduct)
   .delete(
     AuthService.protect,
     AuthService.allowedTo("admin"),

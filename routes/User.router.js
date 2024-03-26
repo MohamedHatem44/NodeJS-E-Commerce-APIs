@@ -24,29 +24,32 @@ const {
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------*/
+// Hatem
+router.route("/").get(getUsers).post(createUserValidator, createUser);
+
+/*-----------------------------------------------------------------*/
 router.use(AuthService.protect);
 
-router.get('/getMe', getLoggedUserData, getUser);
-router.put('/changeMyPassword', updateLoggedUserPassword);
-router.put('/updateMe', updateLoggedUserValidator, updateLoggedUserData);
-router.delete('/deleteMe', deleteLoggedUserData);
+router.get("/getMe", getLoggedUserData, getUser);
+router.patch("/changeMyPassword", updateLoggedUserPassword);
+router.patch("/updateMe", updateLoggedUserValidator, updateLoggedUserData);
+router.delete("/deleteMe", deleteLoggedUserData);
 
 // Admin
-router.use(AuthService.allowedTo('admin', 'manager'));
+router.use(AuthService.allowedTo("admin", "manager"));
 
-router.put(
-  '/changePassword/:id',
+router.patch(
+  "/changePassword/:id",
   changeUserPasswordValidator,
   ChangeUserPassword
 );
+router.route("/").get(getUsers).post(createUserValidator, createUser);
 router
-  .route('/')
-  .get(getUsers)
-  .post(createUserValidator, createUser);
-router
-  .route('/:id')
+  .route("/:id")
   .get(getUserValidator, getUser)
-  .put( updateUserValidator, updateUser)
+  .patch(updateUserValidator, updateUser)
   .delete(deleteUserValidator, deleteUser);
 
 module.exports = router;

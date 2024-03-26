@@ -58,6 +58,7 @@ app.use("/api/v1/users", UserRoute);
 /*-----------------------------------------------------------------*/
 //Auth route
 app.use("/api/v1/auth", AuthRoute);
+/*-----------------------------------------------------------------*/
 //order Route
 app.use("/api/v1/orders", orderRoute);
 /*-----------------------------------------------------------------*/
@@ -80,7 +81,7 @@ app.all("*", (req, res, next) => {
 // Global error handling middleware for express
 app.use(globalError);
 /*-----------------------------------------------------------------*/
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(`listening on port ${port}.....`);
   console.log(`Server running at http://localhost:${port}.....`);

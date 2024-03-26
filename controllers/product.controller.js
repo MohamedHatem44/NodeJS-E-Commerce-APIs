@@ -7,8 +7,8 @@ const { uploadSingleImage } = require("../middlewares/uploadImageMiddleware");
 const Product = require("../models/product.model");
 /*-----------------------------------------------------------------*/
 // Upload single image
-const uploadProductImage = uploadSingleImage("image");
-
+const uploadProductImage = uploadSingleImage("imageCover");
+/*-----------------------------------------------------------------*/
 // Image processing
 const resizeImage = asyncHandler(async (req, res, next) => {
   const filename = `category-${uuidv4()}-${Date.now()}.jpeg`;

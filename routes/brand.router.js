@@ -41,15 +41,19 @@ router
 //get barnd bu Id
 // Update Brand
 // Delete Brand by Id
+// router
+//   .route("/:id")
+//   .get(getBrandValidator, getBrand)
+//   .patch(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     updateBrandValidator,
+//     updateBrand
+// )
 router
   .route("/:id")
   .get(getBrandValidator, getBrand)
-  .patch(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    updateBrandValidator,
-    updateBrand
-  )
+  .patch(updateBrandValidator, updateBrand)
   .delete(
     AuthService.protect,
     AuthService.allowedTo("admin"),

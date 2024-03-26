@@ -38,11 +38,11 @@ const productSchema = new mongoose.Schema(
     },
     colors: [String],
 
-    image: {
+    imageCover: {
       type: String,
       required: [true, "Product Image cover is required"],
     },
-    // images: [String],
+    images: [String],
     category: {
       type: mongoose.Schema.ObjectId,
       ref: "Category",
@@ -105,6 +105,15 @@ productSchema.virtual("reviews", {
 productSchema.pre(/^find/, function (next) {
   this.populate({
     path: "category",
+    select: "name -_id",
+  });
+  next();
+});
+/*-----------------------------------------------------------------*/
+// Mongoose query middleware
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "brand",
     select: "name -_id",
   });
   next();
