@@ -20,6 +20,8 @@ const {
   updateLoggedUserPassword,
   updateLoggedUserData,
   deleteLoggedUserData,
+  uploadUserImage,
+  resizeImage,
 } = require("../controllers/User.controller");
 
 const router = express.Router();
@@ -27,7 +29,13 @@ const router = express.Router();
 
 /*-----------------------------------------------------------------*/
 // Hatem
-router.route("/").get(getUsers).post(createUserValidator, createUser);
+router
+  .route("/")
+  .get(getUsers)
+  .post(uploadUserImage, resizeImage, createUserValidator, createUser);
+
+router.route("/:id").get(getUserValidator, getUser);
+router.route("/:id").patch(updateUserValidator, updateUser);
 
 /*-----------------------------------------------------------------*/
 router.use(AuthService.protect);

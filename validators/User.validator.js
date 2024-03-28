@@ -49,7 +49,7 @@ const createUserValidator = [
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
-  check("profileImg").optional(),
+  check("image").optional(),
   check("role").optional(),
 
   validatorMiddleware,
@@ -85,7 +85,7 @@ const updateUserValidator = [
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
-  check("profileImg").optional(),
+  check("image").optional(),
   check("role").optional(),
   validatorMiddleware,
 ];
