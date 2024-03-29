@@ -30,6 +30,10 @@ const orderSchema= new mongoose.Schema({
         enum: ['placed', 'shipped', 'delivered', 'cancelled'],
         default: 'placed'
       },
+    date: {
+      type: Date,
+      default: Date.now()
+    }
     },
     { timestamps: true }
 )
