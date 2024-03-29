@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-
+/*-----------------------------------------------------------------*/
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
     },
     phone: String,
-    profileImg: String,
+    image: String,
 
     password: {
       type: String,
@@ -46,14 +46,32 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 ); //option that adds two fields to the schema(createdAt ,updatedAt)
-
+/*-----------------------------------------------------------------*/
 //encrypt password pre midllware
 userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   //hashing
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
-
+/*-----------------------------------------------------------------*/
+const setImageURL = (doc) => {
+  if (doc.image) {
+    const imageUrl = `${process.env.BASE_URL}/users/${doc.image}`;
+    doc.image = imageUrl;
+  }
+};
+/*-----------------------------------------------------------------*/
+userSchema.post("init", (doc) => {
+  setImageURL(doc);
+});
+/*-----------------------------------------------------------------*/
+// create
+userSchema.post("save", (doc) => {
+  setImageURL(doc);
+});
+/*-----------------------------------------------------------------*/
 const User = mongoose.model("User", userSchema);
-
+/*-----------------------------------------------------------------*/
 module.exports = User;
+/*-----------------------------------------------------------------*/

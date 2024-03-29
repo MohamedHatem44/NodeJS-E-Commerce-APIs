@@ -14,7 +14,7 @@ const categoryRoute = require("./routes/category.router");
 const subCategoryRoute = require("./routes/subCategory.router");
 const brandRoute = require("./routes/brand.router");
 const productRoute = require("./routes/product.router");
-const UserRoute = require("./routes/User.router");
+const userRoute = require("./routes/user.router");
 const AuthRoute = require("./routes/Auth.router");
 const orderRoute = require("./routes/order.router");
 const reviewRoute = require("./routes/review.router");
@@ -29,6 +29,8 @@ app.use(cors());
 /*-----------------------------------------------------------------*/
 // Middlewares to parse json string into a javascript object
 app.use(express.json());
+/*-----------------------------------------------------------------*/
+// Serve uploaded images statically
 app.use(express.static(path.join(__dirname, "uploads")));
 /*-----------------------------------------------------------------*/
 if (process.env.NODE_ENV === "development") {
@@ -54,7 +56,7 @@ app.use("/api/v1/brands", brandRoute);
 app.use("/api/v1/products", productRoute);
 /*-----------------------------------------------------------------*/
 //user route
-app.use("/api/v1/users", UserRoute);
+app.use("/api/v1/users", userRoute);
 /*-----------------------------------------------------------------*/
 //Auth route
 app.use("/api/v1/auth", AuthRoute);
