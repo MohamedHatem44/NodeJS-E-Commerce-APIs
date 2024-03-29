@@ -7,13 +7,13 @@ const {
   changeUserPasswordValidator,
   deleteUserValidator,
   updateLoggedUserValidator,
-} = require("../validators/User.validator");
+} = require("../validators/user.validator");
 
 const {
   getUsers,
   getUser,
   createUser,
-  ChangeUserPassword,
+  changeUserPassword,
   updateUser,
   deleteUser,
   getLoggedUserData,
@@ -22,7 +22,7 @@ const {
   deleteLoggedUserData,
   uploadUserImage,
   resizeImage,
-} = require("../controllers/User.controller");
+} = require("../controllers/user.controller");
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/
@@ -34,30 +34,33 @@ router
   .get(getUsers)
   .post(uploadUserImage, resizeImage, createUserValidator, createUser);
 
-router.route("/:id").get(getUserValidator, getUser);
-router.route("/:id").patch(updateUserValidator, updateUser);
+// router.route("/:id").get(getUserValidator, getUser);
+// router.route("/:id").put(updateUserValidator, updateUser);
 
 /*-----------------------------------------------------------------*/
-router.use(AuthService.protect);
+// router.use(AuthService.protect);
 
 router.get("/getMe", getLoggedUserData, getUser);
-router.patch("/changeMyPassword", updateLoggedUserPassword);
-router.patch("/updateMe", updateLoggedUserValidator, updateLoggedUserData);
+router.put("/changeMyPassword", updateLoggedUserPassword);
+router.put("/updateMe", updateLoggedUserValidator, updateLoggedUserData);
 router.delete("/deleteMe", deleteLoggedUserData);
 
 // Admin
-router.use(AuthService.allowedTo("admin", "manager"));
-
-router.patch(
+// router.use(AuthService.allowedTo("admin", "manager"));
+router.put(
   "/changePassword/:id",
   changeUserPasswordValidator,
-  ChangeUserPassword
+  changeUserPassword
 );
-router.route("/").get(getUsers).post(createUserValidator, createUser);
+
+router
+  .route("/")
+  .get(getUsers)
+  .post(uploadUserImage, resizeImage, createUserValidator, createUser);
 router
   .route("/:id")
   .get(getUserValidator, getUser)
-  .patch(updateUserValidator, updateUser)
+  .put(uploadUserImage, resizeImage, updateUserValidator, updateUser)
   .delete(deleteUserValidator, deleteUser);
 
 module.exports = router;

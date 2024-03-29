@@ -1,14 +1,14 @@
 const asyncHandler = require("express-async-handler");
-const { v4: uuidv4 } = require("uuid");
 const sharp = require("sharp");
-
+const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
-const factory = require("../factory/factory");
-const User = require("../models/UserModel");
-const ApiError = require("../utils/apiError");
-const createToken = require("../utils/createToken");
 
+const factory = require("../factory/factory");
+const ApiError = require("../utils/apiError");
 const { uploadSingleImage } = require("../middlewares/uploadImageMiddleware");
+const createToken = require("../utils/createToken");
+const User = require("../models/user.model");
+
 /*-----------------------------------------------------------------*/
 // profile image upload
 // Upload single image
@@ -18,14 +18,16 @@ const uploadUserImage = uploadSingleImage("image");
 const resizeImage = asyncHandler(async (req, res, next) => {
   const filename = `user-${uuidv4()}-${Date.now()}.jpeg`;
 
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat("jpeg")
-    .jpeg({ quality: 95 })
-    .toFile(`uploads/users/${filename}`);
+  if (req.file) {
+    await sharp(req.file.buffer)
+      .resize(500, 500)
+      .toFormat("jpeg")
+      .jpeg({ quality: 95 })
+      .toFile(`uploads/users/${filename}`);
 
-  // Save image into our db
-  req.body.image = filename;
+    // Save image into our db
+    req.body.image = filename;
+  }
 
   next();
 });
@@ -48,16 +50,16 @@ const createUser = factory.createOne(User);
 // @desc    Update specific users
 // @route   PUT /api/v1/users/:id
 // @access  Private   /admin
-
 //update all data without password
 const updateUser = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(
     req.params.id,
     {
       name: req.body.name,
-      email: req.body.email,
+      // email: req.body.email,
       slug: req.body.slug,
       phone: req.body.phone,
+      image: req.body.image,
       role: req.body.role,
     },
     {
@@ -72,7 +74,7 @@ const updateUser = asyncHandler(async (req, res, next) => {
 });
 /*-----------------------------------------------------------------*/
 //update the password only
-const ChangeUserPassword = asyncHandler(async (req, res, next) => {
+const changeUserPassword = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(
     req.params.id,
     {
@@ -147,7 +149,7 @@ module.exports = {
   getUsers,
   getUser,
   createUser,
-  ChangeUserPassword,
+  changeUserPassword,
   updateUser,
   deleteUser,
   getLoggedUserData,
