@@ -17,6 +17,7 @@ const productRoute = require("./routes/product.router");
 const UserRoute = require("./routes/User.router");
 const AuthRoute = require("./routes/Auth.router");
 const orderRoute = require("./routes/order.router");
+const CartRoute = require("./routes/shoppingCart.router");
 const reviewRoute = require("./routes/review.router");
 const AdminRoute = require("./routes/admin.route");
 /*-----------------------------------------------------------------*/
@@ -63,7 +64,7 @@ app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/orders", orderRoute);
 /*-----------------------------------------------------------------*/
 //shoppingCart Route
-app.use("/api/v1/orders", orderRoute);
+app.use("/api/v1/carts", CartRoute);
 /*-----------------------------------------------------------------*/
 //Admin Route
 app.use("/admin", AdminRoute);

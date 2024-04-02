@@ -76,7 +76,7 @@ const deleteOne = (Model) =>
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
     //Trigger "remove" event
-    document.remove();
+    //document.remove();
     res.status(204).send();
   });
 
@@ -120,7 +120,7 @@ asyncHandler(async (req, res, next) => {
   const deleteMany = (Model,component) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.headers;
-    const document = await Model.deleteMany({ [component]: id });
+    const document = await Model.deleteMany({ component: id });
   
     if (!document) {
       return next(new ApiError(`No document for this id ${id}`, 404));

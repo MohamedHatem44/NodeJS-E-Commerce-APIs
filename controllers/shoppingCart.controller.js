@@ -1,25 +1,17 @@
 const factory = require("../factory/factory");
 const ShoppingCart = require("../models/shoppingCart.model");
 
-const getCart = factory.getOneByQuery(ShoppingCart,user);
-/*-----------------------------------------------------------------*/
-
-const createCart = factory.createOne(ShoppingCart);
-/*-----------------------------------------------------------------*/
-
-const updateShoppingCart = factory.updateOneByQuery(ShoppingCart,product);
-/*-----------------------------------------------------------------*/
-
-const deleteShoppingCart = factory.deleteOneByQuery(ShoppingCart,product);
-
-/*-----------------------------------------------------------------*/
-
-const deleteShoppingCartAllToOneUser = factory.deleteMany(ShoppingCart,user);
-
+const getShoppingCarts = factory.getAll(ShoppingCart);
+const getShoppingCart = factory.getOne(ShoppingCart);
+const createShoppingCart = factory.createOne(ShoppingCart);
+const updateShoppingCart = factory.updateOne(ShoppingCart);
+const deleteShoppingCart = factory.deleteOne(ShoppingCart);
+const deleteAllShoppingCart = factory.deleteMany(ShoppingCart,"user");
 module.exports = {
-    getCart,
-    createCart,
-    updateShoppingCart,
-    deleteShoppingCart,
-    deleteShoppingCartAllToOneUser,
-  };
+  getShoppingCarts,
+  getShoppingCart,
+  createShoppingCart,
+  updateShoppingCart,
+  deleteShoppingCart,
+  deleteAllShoppingCart
+};
