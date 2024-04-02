@@ -10,7 +10,6 @@ const {
     deleteAllShoppingCart,
 } = require("../controllers/shoppingCart.controller");
 
-
 const router = express.Router();
 
 //-----------------------------------------------------------------/
