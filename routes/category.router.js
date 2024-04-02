@@ -52,7 +52,13 @@ router
   );
 /*-----------------------------------------------------------------*/
 // Update Category
-router.patch("/:id", updateCategoryValidator, updateCategory);
+router.patch(
+  "/:id",
+  uploadCategoryImage,
+  resizeImage,
+  updateCategoryValidator,
+  updateCategory
+);
 /*-----------------------------------------------------------------*/
 // Delete Category by Id
 router.delete("/:id", deleteCategoryValidator, deleteCategory);

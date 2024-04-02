@@ -76,7 +76,7 @@ const deleteOne = (Model) =>
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
     //Trigger "remove" event
-    document.remove();
+    // document.remove();
     res.status(204).send();
   });
 
