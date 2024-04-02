@@ -2,7 +2,7 @@ const slugify = require("slugify");
 const bcrypt = require("bcryptjs");
 const { check, body } = require("express-validator");
 const validatorMiddleware = require("../middlewares/validatorMiddleware");
-const User = require("../models/UserModel");
+const User = require("../models/user.model");
 
 const createUserValidator = [
   check("name")
@@ -49,7 +49,7 @@ const createUserValidator = [
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
-  check("profileImg").optional(),
+  check("image").optional(),
   check("role").optional(),
 
   validatorMiddleware,
@@ -68,24 +68,24 @@ const updateUserValidator = [
       req.body.slug = slugify(val);
       return true;
     }),
-  check("email")
-    .notEmpty()
-    .withMessage("Email required")
-    .isEmail()
-    .withMessage("Invalid email address")
-    .custom((val) =>
-      User.findOne({ email: val }).then((user) => {
-        if (user) {
-          return Promise.reject(new Error("E-mail already in user"));
-        }
-      })
-    ),
+  // check("email")
+  //   .notEmpty()
+  //   .withMessage("Email required")
+  //   .isEmail()
+  //   .withMessage("Invalid email address")
+  //   .custom((val) =>
+  //     User.findOne({ email: val }).then((user) => {
+  //       if (user) {
+  //         return Promise.reject(new Error("E-mail already in user"));
+  //       }
+  //     })
+  //   ),
   check("phone")
     .optional()
     .isMobilePhone(["ar-EG", "ar-SA"])
     .withMessage("Invalid phone number only accepted Egy and SA Phone numbers"),
 
-  check("profileImg").optional(),
+  check("image").optional(),
   check("role").optional(),
   validatorMiddleware,
 ];
@@ -136,9 +136,8 @@ const updateLoggedUserValidator = [
       req.body.slug = slugify(val);
       return true;
     }),
+  //    .notEmpty() .withMessage("Email required")
   check("email")
-    .notEmpty()
-    .withMessage("Email required")
     .isEmail()
     .withMessage("Invalid email address")
     .custom((val) =>

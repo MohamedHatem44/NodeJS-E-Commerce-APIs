@@ -1,30 +1,35 @@
 const express = require("express");
 const {
-getOrderValidator,
-createOrderValidator,
-updateOrderValidator,
-deleteOrderValidator,
+  getOrderValidator,
+  createOrderValidator,
+  updateOrderValidator,
+  deleteOrderValidator,
 } = require("../validators/order.validator");
 
-const authService = require('../controllers/Auth.controller');
+const authService = require("../controllers/Auth.controller");
 
 const {
-getOrder,
-createOrder,
-updateOrder,
-deleteOrder,
-getOrders,
-checkoutSession
+  getOrder,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+  getOrders,
+  checkoutSession,
 } = require("../controllers/order.controller");
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/
 
-router.get('/checkout-session/:cartId', authService.allowedTo('user'), checkoutSession);
+router.get(
+  "/checkout-session/:cartId",
+  authService.allowedTo("user"),
+  checkoutSession
+);
 
 // Get All Orders
 
-router.get("/",authService.allowedTo('admin'), getOrders);
+// router.get("/",authService.allowedTo('admin'), getOrders);
+router.get("/", getOrders);
 /*-----------------------------------------------------------------*/
 // Get Order by Id
 router.get("/:id", getOrderValidator, getOrder);

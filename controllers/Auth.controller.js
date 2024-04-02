@@ -8,7 +8,7 @@ const ApiError = require("../utils/apiError");
 const sendEmail = require("../utils/sendEmail");
 const createToken = require("../utils/createToken");
 
-const User = require("../models/UserModel");
+const User = require("../models/user.model");
 
 // @desc    Signup
 // @route   GET /api/v1/auth/signup

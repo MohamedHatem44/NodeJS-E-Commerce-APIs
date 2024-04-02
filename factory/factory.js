@@ -29,7 +29,7 @@ const getAll = (Model, modelName = "") =>
 const getOne = (Model, populationOpt) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    
+
     //Build query
     let query = Model.findById(id);
     if (populationOpt) {
@@ -84,7 +84,7 @@ const deleteOne = (Model) =>
 const getOneByQuery = (Model, component) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const document = await Model.findOne({ component :id});
+    const document = await Model.findOne({ component: id });
     if (!document) {
       return next(new ApiError(`No document for this id ${id}`, 404));
     }
@@ -94,30 +94,32 @@ const getOneByQuery = (Model, component) =>
 const updateOneByQuery = (Model, component, updatedBody) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.params;
-    const document = await Model.findOneAndUpdate({ [component]:id  }, updatedBody, {
-      new: true,
-    });
+    const document = await Model.findOneAndUpdate(
+      { [component]: id },
+      updatedBody,
+      {
+        new: true,
+      }
+    );
 
     if (!document) {
-      return next(
-        new ApiError(`No document for this id ${id}`, 404)
-      );
+      return next(new ApiError(`No document for this id ${id}`, 404));
     }
     res.status(200).json({ data: document });
   });
-  /*-----------------------------------------------------------------*/
-const deleteOneByQuery = (Model,component) =>
-asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-  const document = await Model.deleteMany({ [component]: id });
+/*-----------------------------------------------------------------*/
+const deleteOneByQuery = (Model, component) =>
+  asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const document = await Model.deleteMany({ [component]: id });
 
-  if (!document) {
-    return next(new ApiError(`No document for this id ${id}`, 404));
-  }
-  res.status(204).send();
-});
-  /*-----------------------------------------------------------------*/
-  const deleteMany = (Model,component) =>
+    if (!document) {
+      return next(new ApiError(`No document for this id ${id}`, 404));
+    }
+    res.status(204).send();
+  });
+/*-----------------------------------------------------------------*/
+const deleteMany = (Model, component) =>
   asyncHandler(async (req, res, next) => {
     const { id } = req.headers;
     const document = await Model.deleteMany({ component: id });
@@ -137,6 +139,6 @@ module.exports = {
   getOneByQuery,
   updateOneByQuery,
   deleteOneByQuery,
-  deleteMany
+  deleteMany,
 };
 /*-----------------------------------------------------------------*/

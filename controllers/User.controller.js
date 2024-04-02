@@ -1,12 +1,36 @@
-const bcrypt = require('bcryptjs')
-const asyncHandler = require('express-async-handler');
-const factory = require("../factory/factory");
-const User = require("../models/UserModel");
-const ApiError = require('../utils/apiError')
-const createToken = require('../utils/createToken');
-/*-----------------------------------------------------------------*/
-//profileimage upload ===>
+const asyncHandler = require("express-async-handler");
+const sharp = require("sharp");
+const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcryptjs");
 
+const factory = require("../factory/factory");
+const ApiError = require("../utils/apiError");
+const { uploadSingleImage } = require("../middlewares/uploadImageMiddleware");
+const createToken = require("../utils/createToken");
+const User = require("../models/user.model");
+
+/*-----------------------------------------------------------------*/
+// profile image upload
+// Upload single image
+const uploadUserImage = uploadSingleImage("image");
+/*-----------------------------------------------------------------*/
+// Image processing
+const resizeImage = asyncHandler(async (req, res, next) => {
+  const filename = `user-${uuidv4()}-${Date.now()}.jpeg`;
+
+  if (req.file) {
+    await sharp(req.file.buffer)
+      .resize(500, 500)
+      .toFormat("jpeg")
+      .jpeg({ quality: 95 })
+      .toFile(`uploads/users/${filename}`);
+
+    // Save image into our db
+    req.body.image = filename;
+  }
+
+  next();
+});
 /*-----------------------------------------------------------------*/
 // @desc    Get list of User
 // @route   GET /api/v1/users
@@ -26,40 +50,40 @@ const createUser = factory.createOne(User);
 // @desc    Update specific users
 // @route   PUT /api/v1/users/:id
 // @access  Private   /admin
-
 //update all data without password
 const updateUser = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(
     req.params.id,
     {
-      name:req.body.name,
-      email : req.body.email,
-      slug : req.body.slug,
-      phone : req.body.phone,
-      role : req.body.role,
+      name: req.body.name,
+      // email: req.body.email,
+      slug: req.body.slug,
+      phone: req.body.phone,
+      image: req.body.image,
+      role: req.body.role,
     },
     {
-      new :true,
+      new: true,
     }
-    );
-    
-    if (!document) {
-      return next(new ApiError(`No document for this id ${req.params.id}`, 404));
-    }
-    res.status(200).json({ data: document });
-  });
-/*-----------------------------------------------------------------*/
-//update the password only 
-const ChangeUserPassword = asyncHandler(async (req, res, next) => {
-  const document = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-      password:await bcrypt.hash(req.body.password,12),
-      passwordChangedAt:Date.now(),
-  },
-  {
-    new :true,
+  );
+
+  if (!document) {
+    return next(new ApiError(`No document for this id ${req.params.id}`, 404));
   }
+  res.status(200).json({ data: document });
+});
+/*-----------------------------------------------------------------*/
+//update the password only
+const changeUserPassword = asyncHandler(async (req, res, next) => {
+  const document = await User.findByIdAndUpdate(
+    req.params.id,
+    {
+      password: await bcrypt.hash(req.body.password, 12),
+      passwordChangedAt: Date.now(),
+    },
+    {
+      new: true,
+    }
   );
 
   if (!document) {
@@ -73,7 +97,7 @@ const ChangeUserPassword = asyncHandler(async (req, res, next) => {
 // @access  Private   /admin
 const deleteUser = factory.deleteOne(User);
 /*-----------------------------------------------------------------*/
-const getLoggedUserData = asyncHandler(async(req,res,next)=>{
+const getLoggedUserData = asyncHandler(async (req, res, next) => {
   req.params.id = req.user.user._id;
   next();
 });
@@ -117,7 +141,7 @@ const updateLoggedUserData = asyncHandler(async (req, res, next) => {
 const deleteLoggedUserData = asyncHandler(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user._id, { active: false });
 
-  res.status(204).json({ status: 'Success' });
+  res.status(204).json({ status: "Success" });
 });
 
 /*-----------------------------------------------------------------*/
@@ -125,12 +149,14 @@ module.exports = {
   getUsers,
   getUser,
   createUser,
-  ChangeUserPassword,
+  changeUserPassword,
   updateUser,
   deleteUser,
   getLoggedUserData,
   updateLoggedUserPassword,
   updateLoggedUserData,
   deleteLoggedUserData,
+  uploadUserImage,
+  resizeImage,
 };
 /*-----------------------------------------------------------------*/
