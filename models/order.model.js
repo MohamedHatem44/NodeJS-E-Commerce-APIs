@@ -41,7 +41,7 @@ const orderSchema = new mongoose.Schema(
 /*-----------------------------------------------------------------*/
 // Mongoose query middleware
 orderSchema.pre(/^find/, function (next) {
-  this.populate();
+  this.populate('products.product');
   next();
 });
 /*-----------------------------------------------------------------*/

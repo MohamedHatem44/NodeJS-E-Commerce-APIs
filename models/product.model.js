@@ -46,7 +46,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.ObjectId,
       ref: "Category",
-      // required: [true, "Product must be belong to category"],
+      required: [true, "Product must be belong to category"],
     },
     subcategories: [
       {
@@ -54,10 +54,10 @@ const productSchema = new mongoose.Schema(
         ref: "SubCategory",
       },
     ],
-    // brand: {
-    //   type: mongoose.Schema.ObjectId,
-    //   ref: "Brand",
-    // },
+    brand: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Brand",
+    },
     ratingsAverage: {
       type: Number,
       min: [1, "Rating must be above or equal 1.0"],
@@ -111,13 +111,13 @@ productSchema.pre(/^find/, function (next) {
 });
 /*-----------------------------------------------------------------*/
 // Mongoose query middleware
-// productSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: "brand",
-//     select: "name -_id",
-//   });
-//   next();
-// });
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "brand",
+    select: "name -_id",
+  });
+  next();
+});
 /*-----------------------------------------------------------------*/
 // Class Product
 const ProductModel = mongoose.model("Product", productSchema);

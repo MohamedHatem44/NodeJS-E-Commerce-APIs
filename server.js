@@ -19,6 +19,8 @@ const AuthRoute = require("./routes/Auth.router");
 const orderRoute = require("./routes/order.router");
 const reviewRoute = require("./routes/review.router");
 const AdminRoute = require("./routes/admin.route");
+const paymentRoutes = require("./routes/PaymentSuccess.route");
+// const CartRoute = require("./routes/shoppingCart.router");
 /*-----------------------------------------------------------------*/
 // Connect with db
 dbConnection();
@@ -42,6 +44,8 @@ if (process.env.NODE_ENV === "development") {
 app.get("/", (req, res) => {
   res.send("E-Commerce App");
 });
+//Success URL
+app.use("/api/v1/payment",paymentRoutes)
 /*-----------------------------------------------------------------*/
 // Category Route
 app.use("/api/v1/categories", categoryRoute);
@@ -65,7 +69,7 @@ app.use("/api/v1/auth", AuthRoute);
 app.use("/api/v1/orders", orderRoute);
 /*-----------------------------------------------------------------*/
 //shoppingCart Route
-app.use("/api/v1/orders", orderRoute);
+// app.use("/api/v1/orders", CartRoute);
 /*-----------------------------------------------------------------*/
 //Admin Route
 app.use("/admin", AdminRoute);

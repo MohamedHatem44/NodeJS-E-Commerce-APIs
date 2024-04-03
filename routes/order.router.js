@@ -15,22 +15,28 @@ const {
   deleteOrder,
   getOrders,
   checkoutSession,
+  getOrdersByUser
 } = require("../controllers/order.controller");
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/
 
+
 router.get(
   "/checkout-session/:cartId",
-  authService.allowedTo("user"),
+ /* authService.allowedTo("user")*/
   checkoutSession
 );
 
 // Get All Orders
 
 // router.get("/",authService.allowedTo('admin'), getOrders);
+
 router.get("/", getOrders);
 /*-----------------------------------------------------------------*/
+
+router.get("/user/:userId", getOrdersByUser);
+
 // Get Order by Id
 router.get("/:id", getOrderValidator, getOrder);
 /*-----------------------------------------------------------------*/
