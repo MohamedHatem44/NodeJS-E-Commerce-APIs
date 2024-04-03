@@ -21,18 +21,46 @@ const categorySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+/*-----------------------------------------------------------------*/
+// const setImageURL = (doc) => {
+//   if (doc.image) {
+//     const imageUrl = `${process.env.BASE_URL}/categories/${doc.image}`;
+//     doc.image = imageUrl;
+//   }
+// };
 
+// const setImageURL = (doc) => {
+//   if (doc.image && !doc.image.startsWith(process.env.BASE_URL)) {
+//     const imageUrl = `${process.env.BASE_URL}/categories/${doc.image}`;
+//     doc.image = imageUrl;
+//   }
+// };
+/*-----------------------------------------------------------------*/
 const setImageURL = (doc) => {
   if (doc.image) {
-    const imageUrl = `${process.env.BASE_URL}/categories/${doc.image}`;
-    doc.image = imageUrl;
+    // Check if the image URL starts with the base URL
+    if (!doc.image.startsWith(process.env.BASE_URL)) {
+      // If not, append the base URL
+      const imageUrl = `${process.env.BASE_URL}/categories/${doc.image}`;
+      doc.image = imageUrl;
+    } else if (doc.image.startsWith(process.env.BASE_URL + "/categories")) {
+      // If the image URL already contains '/categories', do nothing
+      // This is to prevent appending the base URL multiple times
+      return;
+    } else {
+      // If the image URL starts with the base URL but not with '/categories',
+      // append '/categories' to the image path
+      const imageUrl = `${process.env.BASE_URL}/categories/${doc.image.split("/").pop()}`;
+      doc.image = imageUrl;
+    }
   }
 };
+/*-----------------------------------------------------------------*/
 // findOne, findAll and update
 categorySchema.post("init", (doc) => {
   setImageURL(doc);
 });
-
+/*-----------------------------------------------------------------*/
 // create
 categorySchema.post("save", (doc) => {
   setImageURL(doc);

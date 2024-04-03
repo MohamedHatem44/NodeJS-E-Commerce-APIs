@@ -1,30 +1,35 @@
 const express = require("express");
-const {
-    addToCartValidator,updateCartItemValidator,removeFromCartValidator
-} = require("../validators/shoppingCart.validator");
+
 
 const {
-  getCart,createCart,updateShoppingCart,deleteShoppingCart,deleteShoppingCartAllToOneUser
+  getShoppingCarts,
+    getShoppingCart,
+    createShoppingCart,
+    updateShoppingCart,
+    deleteShoppingCart,
+    deleteAllShoppingCart,
 } = require("../controllers/shoppingCart.controller");
-
 
 const router = express.Router();
 
-/*-----------------------------------------------------------------*/
-// Get Cart to user
-router.get("/", getCart);
-/*-----------------------------------------------------------------*/
-// Get Category by Id
-router.post("/add",addToCartValidator,createCart);
-/*-----------------------------------------------------------------*/
-// Create new Category
-router.patch("/update/:id", updateCartItemValidator,updateShoppingCart);
-/*-----------------------------------------------------------------*/
-// Update Category
-router.delete("/delete/:id", removeFromCartValidator,deleteShoppingCart);
-/*-----------------------------------------------------------------*/
-// Delete Category by Id
-router.delete("/clear", deleteShoppingCartAllToOneUser);
-/*-----------------------------------------------------------------*/
+//-----------------------------------------------------------------/
+// Get All carts
+router.get("/", getShoppingCarts);
+//-----------------------------------------------------------------/
+// Get cart by Id
+router.get("/:id", getShoppingCart);
+//-----------------------------------------------------------------/
+// Create 
+router.post("/",  createShoppingCart);
+//-----------------------------------------------------------------/
+// Update 
+router.patch("/:id", updateShoppingCart);
+//-----------------------------------------------------------------/
+// Delete 
+router.delete("/:id", deleteShoppingCart);
+//-----------------------------------------------------------------/
+// Delete aLL
+router.delete("/:id/all", deleteAllShoppingCart);
+//-----------------------------------------------------------------/
 module.exports = router;
-/*-----------------------------------------------------------------*/
+//-----------------------------------------------------------------
