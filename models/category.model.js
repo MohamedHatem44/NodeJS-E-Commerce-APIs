@@ -35,6 +35,7 @@ const categorySchema = new mongoose.Schema(
 //     doc.image = imageUrl;
 //   }
 // };
+/*-----------------------------------------------------------------*/
 const setImageURL = (doc) => {
   if (doc.image) {
     // Check if the image URL starts with the base URL

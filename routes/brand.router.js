@@ -53,7 +53,7 @@ router
 router
   .route("/:id")
   .get(getBrandValidator, getBrand)
-  .patch(updateBrandValidator, updateBrand)
+  .patch(uploadBrandImage, resizeImage, updateBrandValidator, updateBrand)
   .delete(
     AuthService.protect,
     AuthService.allowedTo("admin"),
