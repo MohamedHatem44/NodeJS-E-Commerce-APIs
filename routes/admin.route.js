@@ -8,7 +8,7 @@ const { getProducts } = require("../controllers/product.controller");
 
 const { getCategories } = require("../controllers/category.controller");
 
-const { getUsers } = require("../controllers/user.controller");
+const { getUsers } = require("../controllers/User.controller");
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/

@@ -26,21 +26,22 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     status: {
-      type: String,
-      enum: ["placed", "shipped", "delivered", "cancelled"],
-      default: "placed",
+        type: String,
+        enum: ['placed', 'shipped', 'delivered', 'cancelled'],
+        default: 'placed'
+      },
+      date:
+      {
+        type: Date,
+        default: Date.now()
+      }
     },
-    date: {
-      type: Date,
-      default: Date.now(),
-    },
-  },
-  { timestamps: true }
-);
+    { timestamps: true }
+)
 /*-----------------------------------------------------------------*/
 // Mongoose query middleware
 orderSchema.pre(/^find/, function (next) {
-  this.populate();
+  this.populate('products.product');
   next();
 });
 /*-----------------------------------------------------------------*/

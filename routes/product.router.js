@@ -23,15 +23,15 @@ const router = express.Router();
 /*-----------------------------------------------------------------*/
 // Get All Brands
 // Create new Brand
-// router
-//   .route("/")
-//   .get(getProducts)
-//   .post(
-//     AuthService.protect,
-//     AuthService.allowedTo("admin", "manager"),
-//     createProductValidator,
-//     createProduct
-//   );
+router
+  .route("/")
+  .get(getProducts)
+  .post(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    createProductValidator,
+    createProduct
+  );
 router
   .route("/")
   .get(getProducts)
@@ -40,15 +40,15 @@ router
 //get product by Id
 // Update product
 // Delete product by Id
-// router
-//   .route("/:id")
-//   .get(getProductValidator, getProduct)
-//   .patch(
-//     AuthService.protect,
-//     AuthService.allowedTo("admin", "manager"),
-//     updateProductValidator,
-//     updateProduct
-// )
+router
+  .route("/:id")
+  .get(getProductValidator, getProduct)
+  .patch(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    updateProductValidator,
+    updateProduct
+)
 router
   .route("/:id")
   .get(getProductValidator, getProduct)

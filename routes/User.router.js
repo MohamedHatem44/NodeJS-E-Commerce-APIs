@@ -7,7 +7,7 @@ const {
   changeUserPasswordValidator,
   deleteUserValidator,
   updateLoggedUserValidator,
-} = require("../validators/user.validator");
+} = require("../validators/User.validator");
 
 const {
   getUsers,
@@ -22,7 +22,7 @@ const {
   deleteLoggedUserData,
   uploadUserImage,
   resizeImage,
-} = require("../controllers/user.controller");
+} = require("../controllers/User.controller");
 
 const router = express.Router();
 /*-----------------------------------------------------------------*/

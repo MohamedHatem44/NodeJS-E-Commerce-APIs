@@ -23,15 +23,15 @@ const router = express.Router();
 /*-----------------------------------------------------------------*/
 // Get All Brands
 // Create new Brand
-// router
-//   .route("/")
-//   .get(getBrands)
-//   .post(
-//     AuthService.protect,
-//     AuthService.allowedTo("admin", "manager"),
-//     createBrandValidator,
-//     createBrand
-// );
+router
+  .route("/")
+  .get(getBrands)
+  .post(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    createBrandValidator,
+    createBrand
+);
 router
   .route("/")
   .get(getBrands)
@@ -41,15 +41,15 @@ router
 //get barnd bu Id
 // Update Brand
 // Delete Brand by Id
-// router
-//   .route("/:id")
-//   .get(getBrandValidator, getBrand)
-//   .patch(
-//     AuthService.protect,
-//     AuthService.allowedTo("admin", "manager"),
-//     updateBrandValidator,
-//     updateBrand
-// )
+router
+  .route("/:id")
+  .get(getBrandValidator, getBrand)
+  .patch(
+    AuthService.protect,
+    AuthService.allowedTo("admin", "manager"),
+    updateBrandValidator,
+    updateBrand
+)
 router
   .route("/:id")
   .get(getBrandValidator, getBrand)

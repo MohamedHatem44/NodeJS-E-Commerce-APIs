@@ -14,12 +14,14 @@ const categoryRoute = require("./routes/category.router");
 const subCategoryRoute = require("./routes/subCategory.router");
 const brandRoute = require("./routes/brand.router");
 const productRoute = require("./routes/product.router");
-const userRoute = require("./routes/user.router");
+const userRoute = require("./routes/User.router");
 const AuthRoute = require("./routes/Auth.router");
 const orderRoute = require("./routes/order.router");
 const CartRoute = require("./routes/shoppingCart.router");
 const reviewRoute = require("./routes/review.router");
 const AdminRoute = require("./routes/admin.route");
+const paymentRoutes = require("./routes/PaymentSuccess.route");
+// const CartRoute = require("./routes/shoppingCart.router");
 /*-----------------------------------------------------------------*/
 // Connect with db
 dbConnection();
@@ -43,6 +45,8 @@ if (process.env.NODE_ENV === "development") {
 app.get("/", (req, res) => {
   res.send("E-Commerce App");
 });
+//Success URL
+app.use("/api/v1/payment",paymentRoutes)
 /*-----------------------------------------------------------------*/
 // Category Route
 app.use("/api/v1/categories", categoryRoute);
