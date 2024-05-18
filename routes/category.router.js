@@ -34,14 +34,14 @@ router.get("/", getCategories);
 router.get("/:id", getCategoryValidator, getCategory);
 /*-----------------------------------------------------------------*/
 // Create new Category
-router
-  .route("/")
-  .post(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    createCategoryValidator,
-    createCategory
-  );
+// router
+//   .route("/")
+//   .post(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     createCategoryValidator,
+//     createCategory
+//   );
 router
   .route("/")
   .post(

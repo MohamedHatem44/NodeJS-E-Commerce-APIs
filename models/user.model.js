@@ -55,10 +55,30 @@ userSchema.pre("save", async function (next) {
   next();
 });
 /*-----------------------------------------------------------------*/
+// const setImageURL = (doc) => {
+//   if (doc.image) {
+//     const imageUrl = `${process.env.BASE_URL}/users/${doc.image}`;
+//     doc.image = imageUrl;
+//   }
+// };
+/*-----------------------------------------------------------------*/
 const setImageURL = (doc) => {
   if (doc.image) {
-    const imageUrl = `${process.env.BASE_URL}/users/${doc.image}`;
-    doc.image = imageUrl;
+    // Check if the image URL starts with the base URL
+    if (!doc.image.startsWith(process.env.BASE_URL)) {
+      // If not, append the base URL
+      const imageUrl = `${process.env.BASE_URL}/users/${doc.image}`;
+      doc.image = imageUrl;
+    } else if (doc.image.startsWith(process.env.BASE_URL + "/users")) {
+      // If the image URL already contains '/categories', do nothing
+      // This is to prevent appending the base URL multiple times
+      return;
+    } else {
+      // If the image URL starts with the base URL but not with '/categories',
+      // append '/categories' to the image path
+      const imageUrl = `${process.env.BASE_URL}/users/${doc.image.split("/").pop()}`;
+      doc.image = imageUrl;
+    }
   }
 };
 /*-----------------------------------------------------------------*/

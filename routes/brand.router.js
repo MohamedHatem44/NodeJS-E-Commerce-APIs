@@ -23,15 +23,15 @@ const router = express.Router();
 /*-----------------------------------------------------------------*/
 // Get All Brands
 // Create new Brand
-router
-  .route("/")
-  .get(getBrands)
-  .post(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    createBrandValidator,
-    createBrand
-);
+// router
+//   .route("/")
+//   .get(getBrands)
+//   .post(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin", "manager"),
+//     createBrandValidator,
+//     createBrand
+// );
 router
   .route("/")
   .get(getBrands)
@@ -44,22 +44,18 @@ router
 router
   .route("/:id")
   .get(getBrandValidator, getBrand)
-  .patch(
-    AuthService.protect,
-    AuthService.allowedTo("admin", "manager"),
-    updateBrandValidator,
-    updateBrand
-)
-router
-  .route("/:id")
-  .get(getBrandValidator, getBrand)
   .patch(uploadBrandImage, resizeImage, updateBrandValidator, updateBrand)
-  .delete(
-    AuthService.protect,
-    AuthService.allowedTo("admin"),
-    deleteBrandValidator,
-    deleteBrand
-  );
+  .delete(deleteBrandValidator, deleteBrand);
+// router
+//   .route("/:id")
+//   .get(getBrandValidator, getBrand)
+//   .patch(uploadBrandImage, resizeImage, updateBrandValidator, updateBrand)
+//   .delete(
+//     AuthService.protect,
+//     AuthService.allowedTo("admin"),
+//     deleteBrandValidator,
+//     deleteBrand
+//   );
 
 /*-----------------------------------------------------------------*/
 module.exports = router;
